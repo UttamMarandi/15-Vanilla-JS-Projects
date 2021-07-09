@@ -44,7 +44,9 @@ const reviews = [
 //3. declare currentItem variable that specifies the current indexed person
 //4. fire an event listener when all the elements are loaded. use of DOMContentLoaded on window object
 //5. acess and store the current review in item variable. 
-//6. acess and change values based on the elements
+//6. acess and change values based on the elements - use a function for that showPerson()
+//7. eventclcik for next button ..loop functionality using if statement
+//8. eventclick for prev button
 
 const img = document.getElementById("person-img") //2
 const author = document.getElementById("author")
@@ -55,13 +57,40 @@ const nextBtn = document.querySelector(".next-btn")
 const randomBtn = document.querySelector("random-btn")
 
 
-let currentItem = 0 //3
+let currentItem = 1 //3
 
 window.addEventListener("DOMContentLoaded" , function() { //4
-  const item = reviews[currentItem] //5 ..
+  showPerson(currentItem)
+
+})
+
+//show person based on item
+
+function showPerson(person) {
+  const item = reviews[person] //5 ..
   img.src = item.img //6
   author.textContent = item.name
   job.textContent = item.job
   info.textContent = item.text
+}
 
+//show next person
+
+nextBtn.addEventListener ("click", function () { //7
+
+  currentItem ++
+  if(currentItem > reviews.length - 1) {
+    currentItem = 0
+  }
+  showPerson(currentItem)
+})
+
+// show prev button
+prevBtn.addEventListener ("click", function () { //8
+
+  currentItem --
+  if(currentItem ===0) {
+    currentItem = reviews.length -1
+  }
+  showPerson(currentItem)
 })
