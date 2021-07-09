@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Starter</title>
+    <!-- font-awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+    />
+
+    <!-- styles -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- 1.review article contains an image ..h4 tag for author..p tag for job description
+          and p tag for info . also within button container 2 buttons for previous and next review
+          A random button to generate randomize reviews -->
+    <section class="container">
+      <!-- title -->
+      <div class="title">
+        <h2>Our Reviews</h2>
+        <div class="underline"></div>
+      </div>
+
+      <!-- review -->
+      <article class="review">
+        <div class="img-container">
+          <img src="./person-1.jpeg" id="person-img" alt="">
+        </div>
+        <h4 id="author">Sara Jones</h4>
+        <p id="job">ux designer</p>
+        <p id="info">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum vel voluptatum enim laborum sit quasi non doloremque nostrum sapiente? Unde nihil repellendus itaque nostrum quos ratione vel aspernatur odio. Aliquam, voluptate tenetur eveniet reprehenderit error amet atque in veritatis ipsum, asperiores explicabo debitis, hic inventore quibusdam nobis ipsam molestiae iusto.]
+        </p>
+        <!-- prev next buttons -->
+        <div class="button-container">
+          <button class="prev-btn">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="next-btn">
+            <i class="fas fa-chevron-right">
+
+            </i>
+          </button>
+        </div>
+        <!--random button  -->
+        <button class="random-btn">
+          surprise me
+        </button>
+      </article>
+    </section>
+
+    <!-- javascript -->
+    <script src="app.js"></script>
+  </body>
+</html>
