@@ -43,6 +43,8 @@ const reviews = [
 //2. Select all elements that needs to be manipulatod including buttons
 //3. declare currentItem variable that specifies the current indexed person
 //4. fire an event listener when all the elements are loaded. use of DOMContentLoaded on window object
+//5. acess and store the current review in item variable. 
+//6. acess and change values based on the elements
 
 const img = document.getElementById("person-img") //2
 const author = document.getElementById("author")
@@ -56,5 +58,10 @@ const randomBtn = document.querySelector("random-btn")
 let currentItem = 0 //3
 
 window.addEventListener("DOMContentLoaded" , function() { //4
-  console.log("Uttam");
+  const item = reviews[currentItem] //5 ..
+  img.src = item.img //6
+  author.textContent = item.name
+  job.textContent = item.job
+  info.textContent = item.text
+
 })
