@@ -47,6 +47,7 @@ const reviews = [
 //6. acess and change values based on the elements - use a function for that showPerson()
 //7. eventclcik for next button ..loop functionality using if statement
 //8. eventclick for prev button
+//9. random button functionality...use Math.random to generate currentItem
 
 const img = document.getElementById("person-img") //2
 const author = document.getElementById("author")
@@ -54,7 +55,7 @@ const job = document.getElementById("job")
 const info = document.getElementById("info")
 const prevBtn = document.querySelector(".prev-btn")
 const nextBtn = document.querySelector(".next-btn")
-const randomBtn = document.querySelector("random-btn")
+const randomBtn = document.querySelector(".random-btn")
 
 
 let currentItem = 1 //3
@@ -89,8 +90,15 @@ nextBtn.addEventListener ("click", function () { //7
 prevBtn.addEventListener ("click", function () { //8
 
   currentItem --
-  if(currentItem ===0) {
+  if(currentItem === 0) {
     currentItem = reviews.length -1
   }
+  showPerson(currentItem)
+})
+
+//random button
+randomBtn.addEventListener ("click", function() {
+  currentItem = Math.floor(Math.random() * reviews.length)
+  console.log(currentItem);
   showPerson(currentItem)
 })
