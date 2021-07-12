@@ -77,6 +77,7 @@ const menu = [
 //2. Select all elements
 //3. we want to run a function the moment DOM is loaded , that's why DOMContentLoaded
 //4. use map function on menu to iterate through each object in array and modify its content
+//5. using template literals in return of a function
 
 const sectionCenter = document.querySelector(".section-center")
 
@@ -85,7 +86,20 @@ window.addEventListener("DOMContentLoaded" , function(){ //3
   let displayMenu = menu.map(function(item){ //4
     console.log(item);
     
-    return `<h1>${item.title} </h1>`
+    return `
+    <article class="menu-item">
+    <img src="${item.img}" alt="menu img" class="photo">
+    <div class="item-info">
+      <header>
+      <h4>${item.title}</h4>
+      <h4 class="price">${item.price}</h4>
+      </header>
+      <p class="item-text">
+        ${item.text}
+      </p>
+    </div>
+  </article>
+  `
   })
   console.log(displayMenu);
   console.log(menu);
