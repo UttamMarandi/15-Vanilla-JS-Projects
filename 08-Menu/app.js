@@ -72,3 +72,21 @@ const menu = [
     desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
   },
 ];
+
+//1. Given meny[] array of objects whose data needs to rendered to ui
+//2. Select all elements
+//3. we want to run a function the moment DOM is loaded , that's why DOMContentLoaded
+//4. use map function on menu to iterate through each object in array and modify its content
+
+const sectionCenter = document.querySelector(".section-center")
+
+
+window.addEventListener("DOMContentLoaded" , function(){ //3
+  let displayMenu = menu.map(function(item){ //4
+    console.log(item);
+    
+    return `<h1>${item.title} </h1>`
+  })
+  console.log(displayMenu);
+  console.log(menu);
+})
