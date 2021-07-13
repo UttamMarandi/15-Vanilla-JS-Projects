@@ -78,29 +78,70 @@ const menu = [
 //3. we want to run a function the moment DOM is loaded , that's why DOMContentLoaded
 //4. use map function on menu to iterate through each object in array and modify its content
 //5. using template literals in return of a function
+//6. producing html from map...using .join() method on displayMenu
+//7. use innerHTMl to render the generated html to ui
+
+//SET UP FILTERING
+//8. wrap all the code from 4-7 in a function render() b.c this piece of code will run each time filter buttons are clicked. function will take an array of objects as argument.. call render() within DOMContentloaded event
+//9. create data-id attribute in html and use dataset to access data-id. data-id contains the category of menu item
+//10. use filter method to access only those objects who have same categories
+//11. call render() with required parameter to display filtered content in ui
+
+
 
 const sectionCenter = document.querySelector(".section-center")
+const filterBtns = document.querySelectorAll(".filter-btn")
+
+//render items
+function render(menuItems) {
+  
+    let displayMenu = menuItems.map(function(item){ //4
+      console.log(item);
+      //5
+      return `
+      <article class="menu-item">
+      <img src="${item.img}" alt="menu img" class="photo">
+      <div class="item-info">
+        <header>
+        <h4>${item.title}</h4>
+        <h4 class="price">${item.price}</h4>
+        </header>
+        <p class="item-text">
+          ${item.desc}
+        </p>
+      </div>
+    </article>
+    `
+    })
+    displayMenu = displayMenu.join("") //6
+  
+    sectionCenter.innerHTML = displayMenu
+    console.log(displayMenu);
+    console.log(menu);
+  
+}
+//filer buttons
+
+filterBtns.forEach(function(btn) {
+  btn.addEventListener("click" , function(e){
+    const category = e.currentTarget.dataset.id //9
+    
+    const menuCategory = menu.filter(function(menuItem) {  //10 
+      if(category === menuItem.category) {
+        return menuItem
+      }
+    })
+    render(menuCategory) //11
+
+    if(category === all) {
+      render(menu)
+    }
+    console.log("Menu Category");
+    console.log(menuCategory);
+  })
+})
 
 
 window.addEventListener("DOMContentLoaded" , function(){ //3
-  let displayMenu = menu.map(function(item){ //4
-    console.log(item);
-    
-    return `
-    <article class="menu-item">
-    <img src="${item.img}" alt="menu img" class="photo">
-    <div class="item-info">
-      <header>
-      <h4>${item.title}</h4>
-      <h4 class="price">${item.price}</h4>
-      </header>
-      <p class="item-text">
-        ${item.text}
-      </p>
-    </div>
-  </article>
-  `
-  })
-  console.log(displayMenu);
-  console.log(menu);
+  render(menu)
 })
