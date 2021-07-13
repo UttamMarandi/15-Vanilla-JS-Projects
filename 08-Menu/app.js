@@ -101,11 +101,14 @@ const menu = [
 //14. Create a function renderCategory to render the categories
 //15. use .reduce() method to iterate over each object and store unique categories in new array
 //16. .reduce() is a complex function ..need to research more on this. basically it takes two parameters accumulator and current. accumulator is a function which again takes two parameters ..1st is the array that needs to be returned..2nd is  copy of the array on which reduce is implemented. accumulator always returns a value for it to function
-
+//17. use a for loop to render content to ui...1st way
+//18. use .map() .join() to render category buttons to ui
+//19. call renderCategory() on DOMContentLoaded
 
 
 const sectionCenter = document.querySelector(".section-center")
-const filterBtns = document.querySelectorAll(".filter-btn")
+
+const btnContainer = document.querySelector(".btn-container")
 
 //render items
 function render(menuItems) {
@@ -139,6 +142,9 @@ function render(menuItems) {
 //render categories
 
 function renderCategory(menuItems) { //15
+
+
+
   const categories = menuItems.reduce( function(values, menuArray) {
     if(!values.includes(menuArray.category)) {
       values.push(menuArray.category)
@@ -146,44 +152,52 @@ function renderCategory(menuItems) { //15
     return values
     
   }, ["all"])
-  console.log(categories);
+  
+  let catergoryBtns = categories.map(function(catbtn){ //18
+    return `<button class="filter-btn" data-id="${catbtn}" type="button">${catbtn}</button>`
+  })
+
+  catergoryBtns = catergoryBtns.join("")
+  btnContainer.innerHTML = catergoryBtns
+  
+  // I did an experiment here to use for loop to render catergory buttons to ui..All buttons got rendered but on clicking filter functionality is not firing. I don't know why..
+  //update:- it's not a for loop issue ... it's a "who loads and gets selected first issue" john has explained well in video
+  //select the buttons only after the dom has been rendered to html dynamically
+  // update :- I just tested,..my code works 😀
+
+  // let textContent = "" //17
+  // for (let i = 0; i< categories.length; i++) {
+  //    textContent += `<button class="filter-btn" data-id="${categories[i]}" type="button">${categories[i]}</button>`
+  // }
+  // btnContainer.innerHTML = textContent
+
+
+  const filterBtns = document.querySelectorAll(".filter-btn")
+  console.log(filterBtns);
+  //filer buttons
+  filterBtns.forEach(function(btn) {
+    btn.addEventListener("click" , function(e){
+      const category = e.currentTarget.dataset.id //9
+      console.log("clicked");
+      const menuCategory = menu.filter(function(menuItem) {  //10 
+        if(category === menuItem.category) {
+          return menuItem
+        }
+      })
+      render(menuCategory) //11
+  
+      if(category === "all") { //12
+        render(menu)
+      }
+      console.log("Menu Category");
+      console.log(menuCategory);
+    })
+  })
+  
 }
 
-//filer buttons
-filterBtns.forEach(function(btn) {
-  btn.addEventListener("click" , function(e){
-    const category = e.currentTarget.dataset.id //9
-    
-    const menuCategory = menu.filter(function(menuItem) {  //10 
-      if(category === menuItem.category) {
-        return menuItem
-      }
-    })
-    render(menuCategory) //11
-
-    if(category === "all") { //12
-      render(menu)
-    }
-    console.log("Menu Category");
-    console.log(menuCategory);
-  })
-})
-
-
 window.addEventListener("DOMContentLoaded" , function(){ //3
+  renderCategory(menu) //19
   render(menu)
-  renderCategory(menu)
  
-  // const categories = menu.reduce(
-  //   function (values, item) {
-  //     if (!values.includes(item.category)) {
-  //       values.push(item.category);
-  //     }
-  //     return values;
-  //   },
-  //   ["all"]
-  // );
-
-  
-
 })
