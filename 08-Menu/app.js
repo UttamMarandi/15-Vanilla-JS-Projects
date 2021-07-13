@@ -71,6 +71,14 @@ const menu = [
     img: "./images/item-9.jpeg",
     desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
   },
+  {
+    id: 10,
+    title: "steak dinner",
+    category: "dinner",
+    price: 56.99,
+    img: "./images/item-10.jpeg",
+    desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
+  },
 ];
 
 //1. Given meny[] array of objects whose data needs to rendered to ui
@@ -86,6 +94,13 @@ const menu = [
 //9. create data-id attribute in html and use dataset to access data-id. data-id contains the category of menu item
 //10. use filter method to access only those objects who have same categories
 //11. call render() with required parameter to display filtered content in ui
+//12. for "all" button call render() method again to render all objects in array
+
+// DYANAMIC CATEGORIES
+//13. Right now everything works but what if I add a new menuItem with a new category , then that categaory will not show up in filter buttons.
+//14. Create a function renderCategory to render the categories
+//15. use .reduce() method to iterate over each object and store unique categories in new array
+//16. .reduce() is a complex function ..need to research more on this. basically it takes two parameters accumulator and current. accumulator is a function which again takes two parameters ..1st is the array that needs to be returned..2nd is  copy of the array on which reduce is implemented. accumulator always returns a value for it to function
 
 
 
@@ -120,8 +135,21 @@ function render(menuItems) {
     console.log(menu);
   
 }
-//filer buttons
 
+//render categories
+
+function renderCategory(menuItems) { //15
+  const categories = menuItems.reduce( function(values, menuArray) {
+    if(!values.includes(menuArray.category)) {
+      values.push(menuArray.category)
+    }
+    return values
+    
+  }, ["all"])
+  console.log(categories);
+}
+
+//filer buttons
 filterBtns.forEach(function(btn) {
   btn.addEventListener("click" , function(e){
     const category = e.currentTarget.dataset.id //9
@@ -133,7 +161,7 @@ filterBtns.forEach(function(btn) {
     })
     render(menuCategory) //11
 
-    if(category === all) {
+    if(category === "all") { //12
       render(menu)
     }
     console.log("Menu Category");
@@ -144,4 +172,18 @@ filterBtns.forEach(function(btn) {
 
 window.addEventListener("DOMContentLoaded" , function(){ //3
   render(menu)
+  renderCategory(menu)
+ 
+  // const categories = menu.reduce(
+  //   function (values, item) {
+  //     if (!values.includes(item.category)) {
+  //       values.push(item.category);
+  //     }
+  //     return values;
+  //   },
+  //   ["all"]
+  // );
+
+  
+
 })
