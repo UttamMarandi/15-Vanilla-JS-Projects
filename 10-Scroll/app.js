@@ -21,6 +21,22 @@
 //9. access the height of "#nav" element and scrollheight of the document
 //10. use an if statement to add ".fixed-nav" class when scrollHeight passes the navHeight
 
+//SMOOTH SCROLL
+//11. smooth scroll works by default if we use in css scroll-behaviour : smooth; for html. But we do lose some section on reaching that particular section. We need to solve that. JS to the rescue
+//12. select all links with ".scroll-link" class
+//13. run a foreach() method on them to acess indivisual links and add a click event
+//14. prevent the default smooth scroll effect of html
+//15. get the "href" attribute of the selected link ...also use .slice() to remove the "#" from the href values
+//16. I have a doubt on this step...we are again selecting the sliced href value using document.getElementbyId(id)..I don't know why..I will look into this later
+//17. use offsetTop to get the top position clicked link element
+//18. define postion variable that negates the navHeight from offsetop when navbar is fixed
+//19. select containerHeigth and navHeight to solve exceptional cases ...1st-when navbar is not fixed 2nd- on mobile view where topbar adds to the navHeight
+//20. use scrollTo() method to set the scroll position when link is clicked
+//21. set containerHeight to 0 to close the navbar once the link is clicked
+
+
+
+
 // ********** set date ************
 const date = document.getElementById("date") //1
 date.innerHTML = new Date().getFullYear() //2
@@ -72,3 +88,34 @@ window.addEventListener("scroll", function()  { //8
 
 // ********** smooth scroll ************
 // select links
+
+const scrollLinks = document.querySelectorAll(".scroll-link") //12
+
+scrollLinks.forEach(function(link){ //13
+    link.addEventListener("click" , function(e){
+        e.preventDefault() //14
+        const id = e.currentTarget.getAttribute("href").slice(1) //15
+        console.log(id);
+        const element = document.getElementById(id) //doubt ...I don't know how this work.  //16
+
+        //calculate the heights
+        const navHeight = navBar.getBoundingClientRect().height //19
+        const containerHeight = linksContainer.getBoundingClientRect().height
+        // selected earlier but not globally..so need to select again
+        const fixedNav = navBar.classList.contains("fixed-nav") //returns true or false
+
+        let position = element.offsetTop - navHeight //18
+        if(!fixedNav) {
+            position = position -navHeight //doubt
+        }
+        if (navHeight > 82) { //82 is the height of the top bar in mobile.if > 92 that means navbar is open
+            position = position + containerHeight 
+        }
+
+        window.scrollTo({ //20
+            top: position,
+            left: 0
+        })
+        linksContainer.style.height = 0 //21
+    })
+})
