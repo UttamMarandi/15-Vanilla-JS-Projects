@@ -14,8 +14,12 @@
 //5. use getBoundingClientRect() to get the height of "links-container" & "links". 
 //6. "links" ul is wrapped within the "links-container". So whenever a new link is added ..height of links increases. assign this height to linkscontainer to open the navmenu. set "links-container" heigth to 0 to close the navmenu
 
+//FIXED NEVBAR
 
-
+//7. access required elements i.e ".top-link" , "#nav"
+//8. add a scroll event to window object so that whenver we sroll past a certain height ".fixed-nav" class is added to the nav to make the height fixed
+//9. access the height of "#nav" element and scrollheight of the document
+//10. use an if statement to add ".fixed-nav" class when scrollHeight passes the navHeight
 
 // ********** set date ************
 const date = document.getElementById("date") //1
@@ -41,6 +45,30 @@ navToggle.addEventListener("click" , function(){
 })
 
 // ********** fixed navbar ************
+const navBar = document.getElementById("nav") //7
+const topLink = document.querySelector(".top-link")
+
+
+window.addEventListener("scroll", function()  { //8
+    const navBarHeight = navBar.getBoundingClientRect().height //9
+    // console.log(navBarHeight);
+    const scrollHeight = window.pageYOffset
+    console.log(scrollHeight);
+    if(scrollHeight > navBarHeight) { //10
+        navBar.classList.add("fixed-nav")
+    }
+    else {
+        navBar.classList.remove("fixed-nav")
+    }
+
+    // show links
+    if(scrollHeight > 500) {
+        topLink.classList.add("show-link")
+    }
+    else {
+        topLink.classList.remove("show-link")
+    }
+})
 
 // ********** smooth scroll ************
 // select links
