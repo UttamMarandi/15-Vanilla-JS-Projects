@@ -73,6 +73,13 @@ function getRemainingTime() {
   console.log(minRemain);
   let secsRemain = Math.floor((t % oneMinute) / oneSecs)
   console.log(secsRemain);
-}
 
-getRemainingTime()
+  let remain = [dayRemain , hourRemain, minRemain, secsRemain ]
+
+  items.forEach(function(item, index){ //passing single item as well as index as parameter
+  
+    item.innerHTML = remain[index]
+  })
+  
+}
+getRemainingTime() 
