@@ -10,8 +10,16 @@
 //7. We can have three states in our app ...a.when user is adding an element b.when user is editing an element i.e editFlag === true c.when user enters an empty value. Write if else conditions for all these three scenerios
 //8.The easiest one - when user enters a empty value ..call displayAlert() function that takes two paremetrs the "text to be dispalyed " and " danger" or "success" depending on color of alert
 //9.define displayAlert() ...use template strings
-//10. also we want to remove the alert after 2 sec ..so use setTimeout() 
-
+//10. also we want to remove the alert after 3 sec ..so use setTimeout() 
+//11. 1st case if() ...when user enters a value.
+//12. create an article element using js
+//13. add ".grocery-item" classlist to the article
+//14. create a data attribute named "id" using js
+//15. assign attribute "data-id" vale to vlue of id
+//16. use innerhtml on article and cut paste the html code i.e p tag storing the grocery name , delete bt, and edit btn from index.html. make changes to make code dynamic
+//17. append the article to ".list" using appendChild
+//18. also show a success alert using displayAlert()
+//19. at last show the container by adding ".show-container" class to ".container"
 
 // ****** SELECT ITEMS **********
 const alert = document.querySelector(".alert") //1
@@ -43,13 +51,37 @@ function addItem(e) { //4
    //when the form is submitted we have three options ..1.to add the item to the list and we are not editing , 2.when we are editing, 3. when user has not added any item
 
    if(value !== '' && editFlag === false){ //7  //can also use value instead of value !== 
+        const element  = document.createElement("article")
+        element.classList.add("grocery-item")
 
+        const attr = document.createAttribute("data-id")
+        attr.value = id
+        element.setAttributeNode(attr)
+        console.log(element);
+        element.innerHTML = `
+        <p class="title">${value}</p>
+            <div class="btn-container">
+              <button class="edit-btn">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="delete-btn">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+        `
+        //append child
+        list.appendChild(element)
+        //display alert
+        displayAlert("grocrery added to the list" , "success")
+        
+        //show container
+        container.classList.add('show-container')
    }
-   if(value !== "" && editFlag == true) {
+   else if(value !== "" && editFlag == true) {
 
    }
    else {
-       displayAlert('how are you' , 'danger') //8
+       displayAlert('Please enter value' , 'danger') //8
    }
    
 }
@@ -60,7 +92,7 @@ function displayAlert(text , action) { //9
     //remove alert after 5s
     setTimeout(function(){ //10
         alert.innerHTML = `<p class="alert"></p> `
-    }, 2000)
+    }, 3000)
 }
 
 
