@@ -73,9 +73,16 @@ function addItem(e) { //4
         list.appendChild(element)
         //display alert
         displayAlert("grocrery added to the list" , "success")
-        
         //show container
         container.classList.add('show-container')
+
+        //add to local storage
+        addtoLocalStorage(id,value)
+
+        //set back to default
+        setBackToDefault()
+
+
    }
    else if(value !== "" && editFlag == true) {
 
@@ -95,9 +102,22 @@ function displayAlert(text , action) { //9
     }, 3000)
 }
 
+//set back to default
+function setBackToDefault () { //when we enter a value , even after addition it stays on the input field. we have to manually delete it. this function make sure that things go back to default 
+    console.log("set back to default");
+    grocery.value = " " //set the value to empty string does the job
 
+    //state
+    editFlag = false
+    editId = ""
+    submitBtn.textContent = "submit"
+}
 
 
 // ****** LOCAL STORAGE **********
+
+function addtoLocalStorage(id,value){
+    console.log("added to local storage");
+}
 
 // ****** SETUP ITEMS **********
