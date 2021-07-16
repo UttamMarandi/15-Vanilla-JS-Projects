@@ -1,3 +1,18 @@
+//PSEUDOCODE
+//1.given a text[] array consisting of 9 paragraphs. The idea is get input from the user to display no. of paragraphs and use para in text[] to render that amount.
+//2. select all required elements i.e ".lorem-form" , "#amount", ".lorem-text"
+//4. use a submit event on form and take event object as a parameter for its callback function
+//5. since by default "submit" event submit data to the server , I need to stop the default behaviour. use preventdefault
+//6. even if input type is "number" the input value is string. input type "number" allows the user to press number only..but the value we get is a string
+//7. That's why parse the value we get from user using parseInt()
+//8.generate a random number between 0 and text.length
+//9.Check for three conditions where user can input invalid values ..i.e input <= 0, input > 10 or input is NaN. If that's the case render a random para from text[]
+//10. if user enters a valid number ..i.e between 0 and 10 then use slice() method on the text[] array to generate para from 0 index to the entered value.
+//11. use map method to insert ".result" class for each para
+//12. The para's willhave "," signs in the end. use  join() on top of map () to remove that.
+//13. use innerHTMl to render the text to ui
+
+
 // lorem text
 const text = [
   `Jelly sweet roll jelly beans biscuit pie macaroon chocolate donut. Carrot cake caramels pie sweet apple pie tiramisu carrot cake. Marzipan marshmallow croissant tootsie roll lollipop. Cupcake lemon drops bear claw gummies. Jelly bear claw gummi bears lollipop cotton candy gummi bears chocolate bar cake cookie. Cupcake muffin danish muffin cookie gummies. Jelly beans tiramisu pudding. Toffee soufflé chocolate cake pastry brownie. Oat cake halvah sweet roll cotton candy croissant lollipop. Macaroon tiramisu chocolate bar candy candy carrot cake jelly sweet. Gummies croissant macaroon dessert. Chocolate cake dragée pie.`,
@@ -11,3 +26,33 @@ I just told you! You've killed me! Fry! Quit doing the right thing, you jerk! Mi
   `Man braid celiac synth freegan readymade, pitchfork fam salvia waistcoat lomo bitters gentrify four loko. Pitchfork semiotics post-ironic vegan. Tofu meditation microdosing hashtag semiotics venmo. Flexitarian vape tilde taiyaki. Prism poutine farm-to-table, messenger bag vegan taxidermy tattooed sartorial squid jean shorts fixie selvage trust fund vape.`,
   `Rutters Plate Fleet boom chandler Brethren of the Coast handsomely lookout marooned brigantine knave. Buccaneer gangway jack rum loot spyglass line Jack Tar fore gaff. Gaff topmast scuttle ballast swab draught measured fer yer chains dance the hempen jig Chain Shot yardarm.`,
 ];
+const form = document.querySelector(".lorem-form") //2
+const amount = document.getElementById("amount")
+const result = document.querySelector(".lorem-text")
+
+form.addEventListener("submit" , function(e){ //4
+  e.preventDefault()//5
+  let value = amount.value 
+  console.log( typeof value); //6
+  value = parseInt(value)
+  console.log(typeof value); //7
+  console.log(value);
+
+  const random = Math.floor(Math.random() * text.length) //8
+
+  //empty
+  //-1
+  //> 9
+
+  if(isNaN(value) || value <= 0 || value > 10) { //9
+    result.innerHTML = `<p class="result"> ${text[random]} </p>`
+  }
+  else {
+    let tempText = text.slice(0  , value) //10
+    tempText = tempText.map(function(para){ //11
+      return `<p class="result"> ${para} </p>` //to wrap each para in result class //12
+    })
+    console.log(tempText);
+    result.innerHTML = tempText   //13
+  }
+})
