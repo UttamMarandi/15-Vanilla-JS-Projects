@@ -37,6 +37,18 @@
 //30. call the setBackToDefault() to move the app back to default position.
 //31. also call the displayAlert() with appropriate parameters
 
+//DELETE SINGLE ITEM
+//32. We cannot select ".delete-btn" ,".edit-btn"  globally because we don't have access to them until it is created in addItem().
+//33. So select the ".delete-btn",".edit-btn" within the addItem() function after they are created
+//34. Also use clcik events on both the buttons and call deleteItem() and editItem()
+//35. define a function deleteItem() which takes event object as parameter.
+//36. within deleteItem() acess the parent's parent container ".article" using parentElement
+//37. use removeChild() to remove the single item from list
+//38. check if the deleted item is the only item. if it is then remove ".show-container " class from container
+//39. call displayAlert()
+//40. call setBackToDefault
+
+
 // ****** SELECT ITEMS **********
 const alert = document.querySelector(".alert") //1
 const form = document.querySelector(".grocery-form")
@@ -87,6 +99,12 @@ function addItem(e) { //4
               </button>
             </div>
         `
+        //only after access
+        const deleteBtn = element.querySelector(".delete-btn")
+        const editBtn = element.querySelector(".edit-btn")
+        deleteBtn.addEventListener("click",deleteItem)
+        editBtn.addEventListener("click",editItem)
+
         //16
         //append child
         list.appendChild(element)//17
@@ -120,6 +138,7 @@ function displayAlert(text , action) { //9
         alert.innerHTML = `<p class="alert"></p> `
     }, 3000)
 }
+
 //clear items
 function clearItems() {
     //list.innerHTML = "" //this is working too //25
@@ -147,6 +166,30 @@ function setBackToDefault () { //when we enter a value , even after addition it 
     submitBtn.textContent = "submit"
 }
 
+//delete single item
+function deleteItem(e) {
+    const parent = e.currentTarget.parentElement.parentElement
+    const id = parent.dataset.id
+    console.log("id", id);
+
+    // const attr = parent.getAttribute("data-id") //same thing as above
+    // console.log("attr" , attr);
+
+    list.removeChild(parent)
+    if(list.children.length ===0) {
+        container.classList.remove("show-container")
+    }
+    displayAlert("single item removed" , "danger")
+    setBackToDefault()
+
+    //remove from local storage
+    //removeFromLocalStorage(id)
+}
+
+//edit single item
+function editItem() {
+    console.log("edit");
+}
 
 // ****** LOCAL STORAGE **********
 
@@ -154,4 +197,7 @@ function addtoLocalStorage(id,value){
     console.log("added to local storage");
 }
 
+function removeFromLocalStorage(id) {
+    console.log("remove");
+}
 // ****** SETUP ITEMS **********
