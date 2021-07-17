@@ -12,6 +12,8 @@
 //9.define displayAlert() ...use template strings
 //10. also we want to remove the alert after 3 sec ..so use setTimeout() 
 //11. 1st case if() ...when user enters a value.
+
+//ADD ITEM
 //12. create an article element using js
 //13. add ".grocery-item" classlist to the article
 //14. create a data attribute named "id" using js
@@ -20,6 +22,20 @@
 //17. append the article to ".list" using appendChild
 //18. also show a success alert using displayAlert()
 //19. at last show the container by adding ".show-container" class to ".container"
+//20.call the function setBackToDefault()
+//21. define the function setBackToDefault(). This function sttore the initial/normal state of the app.Each time it is called, it changes certain variables back to their original values
+//22. Within setBackToDefault() ..a. set value of grocery and edit-id to empty string.
+//23. Within setBackToDefault().. c. set ediftFlag as false and textContent of submit button to submit
+
+//DELETE ALL ITEMS
+//24. In order to delete all the items first we need to call an click event on ".clear-btn" button. call clearItem() method on click
+//25. Within clearItem() .. what I did was set the innerHTML of ".list" as empty string. and it worked 😆. But jhon did this other way and I think Jhon's way is more js savvy.my way is commented out
+//26.select all html element eith class ".grocery-item". //we created this element using js
+//27.".grocery item" represents each grocery input by user. So we run for each on these items when items.length > 0..means there is items input by the user. If not items.length will be equal to zero
+//28. ".grocery-item" is child element of ".grocery-list". We remove the ".grocery-item" using removeChild()..in this way we remove all the items.
+//29. Also remove the ".show-cotainer" class from the ".container" .This remover "clear items" button too
+//30. call the setBackToDefault() to move the app back to default position.
+//31. also call the displayAlert() with appropriate parameters
 
 // ****** SELECT ITEMS **********
 const alert = document.querySelector(".alert") //1
@@ -39,6 +55,8 @@ let editId = ""
 //submit form
 form.addEventListener("submit" , addItem) //addItem is a function but we are not using moon braces..also submit the form not the button //3
 
+//clear items
+clearBtn.addEventListener("click" , clearItems) //24
 
 
 // ****** FUNCTIONS **********
@@ -51,15 +69,15 @@ function addItem(e) { //4
    //when the form is submitted we have three options ..1.to add the item to the list and we are not editing , 2.when we are editing, 3. when user has not added any item
 
    if(value !== '' && editFlag === false){ //7  //can also use value instead of value !== 
-        const element  = document.createElement("article")
-        element.classList.add("grocery-item")
+        const element  = document.createElement("article") //12
+        element.classList.add("grocery-item")//13
 
-        const attr = document.createAttribute("data-id")
+        const attr = document.createAttribute("data-id")//14
         attr.value = id
-        element.setAttributeNode(attr)
+        element.setAttributeNode(attr)//15
         console.log(element);
         element.innerHTML = `
-        <p class="title">${value}</p>
+            <p class="title">${value}</p>
             <div class="btn-container">
               <button class="edit-btn">
                 <i class="fas fa-edit"></i>
@@ -69,18 +87,19 @@ function addItem(e) { //4
               </button>
             </div>
         `
+        //16
         //append child
-        list.appendChild(element)
+        list.appendChild(element)//17
         //display alert
-        displayAlert("grocrery added to the list" , "success")
+        displayAlert("grocrery added to the list" , "success")//18
         //show container
-        container.classList.add('show-container')
+        container.classList.add('show-container')//19
 
         //add to local storage
         addtoLocalStorage(id,value)
 
         //set back to default
-        setBackToDefault()
+        setBackToDefault() //20
 
 
    }
@@ -101,14 +120,29 @@ function displayAlert(text , action) { //9
         alert.innerHTML = `<p class="alert"></p> `
     }, 3000)
 }
+//clear items
+function clearItems() {
+    //list.innerHTML = "" //this is working too //25
+    const items = document.querySelectorAll(".grocery-item") //26
+
+    if(items.length > 0) { //2
+        items.forEach(function(item){ //27
+            list.removeChild(item)//28
+        })
+    }
+    container.classList.remove("show-container")//29
+    displayAlert("items removed from the list" , "danger")//30
+    setBackToDefault();//31
+    //localStorage.removeItem('list')
+}
 
 //set back to default
-function setBackToDefault () { //when we enter a value , even after addition it stays on the input field. we have to manually delete it. this function make sure that things go back to default 
+function setBackToDefault () { //when we enter a value , even after addition it stays on the input field. we have to manually delete it. this function make sure that things go back to default //21
     console.log("set back to default");
-    grocery.value = " " //set the value to empty string does the job
+    grocery.value = " " //set the value to empty string does the job//22
 
     //state
-    editFlag = false
+    editFlag = false //23
     editId = ""
     submitBtn.textContent = "submit"
 }
