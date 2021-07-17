@@ -48,6 +48,13 @@
 //39. call displayAlert()
 //40. call setBackToDefault
 
+//EDIT SINGLE ITEM
+//41.define editItem() function that takes event obkect as parameter
+//42.select the parent's parent of the e.currentTarget
+//43.a.c to our html structyre ..title is a sibling of parent's parent of event object. so acess that title.
+//44.now change the value of grocery to that title
+//45.Also change the state of our app...a.Edit flag to true,b. submit text to edit text and c.id to the id of the parent element.
+
 
 // ****** SELECT ITEMS **********
 const alert = document.querySelector(".alert") //1
@@ -187,9 +194,17 @@ function deleteItem(e) {
 }
 
 //edit single item
-function editItem() {
-    console.log("edit");
+function editItem(e) { //41
+    const parent = e.currentTarget.parentElement.parentElement //42
+    const editTitle = e.currentTarget.parentElement.previousElementSibling; //43 
+    grocery.value = editTitle.innerHTML //44
+
+    //shange state
+    editFlag = true //45
+    editId = parent.dataset.id
+    submitBtn.textContent = "Edit"
 }
+
 
 // ****** LOCAL STORAGE **********
 
