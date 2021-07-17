@@ -48,12 +48,20 @@
 //39. call displayAlert()
 //40. call setBackToDefault
 
-//EDIT SINGLE ITEM
+//EDIT SINGLE ITEM - Part 1
 //41.define editItem() function that takes event obkect as parameter
 //42.select the parent's parent of the e.currentTarget
 //43.a.c to our html structyre ..title is a sibling of parent's parent of event object. so acess that title.
 //44.now change the value of grocery to that title
 //45.Also change the state of our app...a.Edit flag to true,b. submit text to edit text and c.id to the id of the parent element.
+
+//EDIT SINGLE ITEM - Part2
+//46. The part of showing the editing value on input is complete. Now the user will enter a new value which in turn is should be added to list using addItem(). That's why we have the if condition where value != string and editFlag is true
+//47.One thing to keep in mind is that editElement is defined globally. so when we give it a value in editItem() we can access that value in addItem() too.
+//48. Assign new input to editElement.innerhtml
+//49. call displayAlert() with appropriate parameters
+//50. call editLocalStorage() ...coming soon
+//51. call setBackToDefault() ..after editing we want our variables showing state of app to normal
 
 
 // ****** SELECT ITEMS **********
@@ -121,7 +129,7 @@ function addItem(e) { //4
         container.classList.add('show-container')//19
 
         //add to local storage
-        addtoLocalStorage(id,value)
+        addtoLocalStorage(editId,value)
 
         //set back to default
         setBackToDefault() //20
@@ -129,7 +137,16 @@ function addItem(e) { //4
 
    }
    else if(value !== "" && editFlag == true) {
+       console.log("test C");
+       console.log(editElement);
+       
+        editElement.innerHTML = value
+        displayAlert("value changed" , "success")
+        //edit local storage
+        editLocalStorage(editId , value)
 
+        setBackToDefault()
+        
    }
    else {
        displayAlert('Please enter value' , 'danger') //8
@@ -196,8 +213,8 @@ function deleteItem(e) {
 //edit single item
 function editItem(e) { //41
     const parent = e.currentTarget.parentElement.parentElement //42
-    const editTitle = e.currentTarget.parentElement.previousElementSibling; //43 
-    grocery.value = editTitle.innerHTML //44
+    editElement = e.currentTarget.parentElement.previousElementSibling; //43 //editElement declared globally
+    grocery.value = editElement.innerHTML //44
 
     //shange state
     editFlag = true //45
@@ -214,5 +231,10 @@ function addtoLocalStorage(id,value){
 
 function removeFromLocalStorage(id) {
     console.log("remove");
+
+}
+
+function editLocalStorage(id , value) {
+    console.log("test");
 }
 // ****** SETUP ITEMS **********
