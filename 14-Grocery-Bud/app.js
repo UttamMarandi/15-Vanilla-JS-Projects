@@ -63,7 +63,16 @@
 //50. call editLocalStorage() ...coming soon
 //51. call setBackToDefault() ..after editing we want our variables showing state of app to normal
 
+// WOKING WITH LOCALSTORAGE
+//ADD LIST TO LOCALSTORAGE
 
+//52. addToLocalStorage() is called during addItem()
+//53. define the funciton addToLocalStorage() that takes two parameters , the id and the input value
+//54. define an object that takes the id and value
+//55. We have two cases..a.when local storage is empty that means user has not entered any item yet.b.when their is content in local storage
+//56. use a terary operator that checks whether the content received from localstorage is empty or not. if empty set it to an empty array. if not empty then parse the content . store the value in items
+//57. push the object storing the id and value into items. items is an array of objects
+//58. store the "items" in localstorage. basically we are overiding the content of that "key pair" ..but it will have no effect as each time we are adding item we are also fetching content from data storage and pushing new data and then storing updated content.
 // ****** SELECT ITEMS **********
 const alert = document.querySelector(".alert") //1
 const form = document.querySelector(".grocery-form")
@@ -129,7 +138,8 @@ function addItem(e) { //4
         container.classList.add('show-container')//19
 
         //add to local storage
-        addtoLocalStorage(editId,value)
+        addtoLocalStorage(id,value)
+        
 
         //set back to default
         setBackToDefault() //20
@@ -225,8 +235,15 @@ function editItem(e) { //41
 
 // ****** LOCAL STORAGE **********
 
-function addtoLocalStorage(id,value){
-    console.log("added to local storage");
+function addtoLocalStorage(id,value){ //53
+    const grocery = { //54
+        id : id,
+        value : value
+    }
+    let items = localStorage.getItem('list') ? JSON.parse (localStorage.getItem("list")) : [] //56
+    items.push(grocery) //57
+    localStorage.setItem("list" , JSON.stringify(items)) //58
+    
 }
 
 function removeFromLocalStorage(id) {
@@ -235,6 +252,13 @@ function removeFromLocalStorage(id) {
 }
 
 function editLocalStorage(id , value) {
-    console.log("test");
+    console.log("test");   
 }
+
+//add , access, delete from localstorage
+// localStorage.setItem( "orange" , JSON.stringify(["item" , "item2"]))
+// const oranges = JSON.parse(localStorage.getItem("orange"))
+// console.log(oranges);
+// localStorage.removeItem("orange")
+
 // ****** SETUP ITEMS **********
