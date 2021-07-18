@@ -70,9 +70,16 @@
 //53. define the funciton addToLocalStorage() that takes two parameters , the id and the input value
 //54. define an object that takes the id and value
 //55. We have two cases..a.when local storage is empty that means user has not entered any item yet.b.when their is content in local storage
-//56. use a terary operator that checks whether the content received from localstorage is empty or not. if empty set it to an empty array. if not empty then parse the content . store the value in items
+//56. use a terary operator that checks whether the content received from localstorage is empty or not. if empty set it to an empty array. if not empty then parse the content . store the value in items ..59.update:- convert it into a function as it will be used multiple times.
 //57. push the object storing the id and value into items. items is an array of objects
 //58. store the "items" in localstorage. basically we are overiding the content of that "key pair" ..but it will have no effect as each time we are adding item we are also fetching content from data storage and pushing new data and then storing updated content.
+
+//DELETE ITEM FROM LOCALSTORAGE
+//60. removeFromLocalStorage() is called while deleting single item
+//61. define the function removeFromLocalStorage() which takes "id" as parameter
+//62. acess the localstorage using getFromLocalStorage()
+//63. use a filter function that iterates through each item and checks if the id passed (id of deleted item) is not equal to the id of the item ...then return the item.
+//64. push the items again back to local storage
 // ****** SELECT ITEMS **********
 const alert = document.querySelector(".alert") //1
 const form = document.querySelector(".grocery-form")
@@ -186,7 +193,9 @@ function clearItems() {
     container.classList.remove("show-container")//29
     displayAlert("items removed from the list" , "danger")//30
     setBackToDefault();//31
-    //localStorage.removeItem('list')
+    localStorage.removeItem('list')
+    
+    // localStorage.clear() //this also works
 }
 
 //set back to default
@@ -217,7 +226,7 @@ function deleteItem(e) {
     setBackToDefault()
 
     //remove from local storage
-    //removeFromLocalStorage(id)
+    removeFromLocalStorage(id) //60
 }
 
 //edit single item
@@ -240,19 +249,30 @@ function addtoLocalStorage(id,value){ //53
         id : id,
         value : value
     }
-    let items = localStorage.getItem('list') ? JSON.parse (localStorage.getItem("list")) : [] //56
+    let items = getLocalStorage()
+    console.log(items);
     items.push(grocery) //57
-    localStorage.setItem("list" , JSON.stringify(items)) //58
-    
+    localStorage.setItem("list" , JSON.stringify(items)) //58s    
 }
 
-function removeFromLocalStorage(id) {
-    console.log("remove");
-
-}
 
 function editLocalStorage(id , value) {
     console.log("test");   
+}
+
+function getLocalStorage() { //59
+    return localStorage.getItem('list') ? JSON.parse (localStorage.getItem("list")) : [] //56    
+}
+
+function removeFromLocalStorage(id) { //61
+    let items = getLocalStorage() //62
+
+    items = items.filter(function(item){ //63
+        if(item.id !== id) {
+            return item
+        }    
+    })
+    localStorage.setItem("list" , JSON.stringify(items)) //64
 }
 
 //add , access, delete from localstorage
@@ -260,5 +280,6 @@ function editLocalStorage(id , value) {
 // const oranges = JSON.parse(localStorage.getItem("orange"))
 // console.log(oranges);
 // localStorage.removeItem("orange")
+
 
 // ****** SETUP ITEMS **********
