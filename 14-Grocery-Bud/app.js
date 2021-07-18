@@ -80,6 +80,27 @@
 //62. acess the localstorage using getFromLocalStorage()
 //63. use a filter function that iterates through each item and checks if the id passed (id of deleted item) is not equal to the id of the item ...then return the item.
 //64. push the items again back to local storage
+
+//EDIT ITEM FROM LOCALSTORAGE
+//65.editLocalStorgae() is called when user edits an item i.e 2nd if case
+//66. define the function editFromLocalStorage() which takes two parameter a.the id of the updated item b.the updated value
+//67. access the localstorage using getFromLocalStorage()
+//68. run a map function on item that iterate through each item and check the id. if id of item is equal to the id passed than change the value of item with the updated item.
+//69. return item from map()
+//70. store item back to localstorage
+
+//SHOWING ITEM EVEN ON PAGE REFRESH - REFACTOR CODE
+//71. the localstorage functionality is not complete unitl we use localstorage to show items even after page refresh
+//72. add an DOMContentLoaded to window object which runs the setUpItems() method
+//73. define function setUpItems that takes two parameter id and value.
+//74. within setUpItems() acces items from localstorage using getLocalStorage()
+//75. now we need to run the code where we add items to the list. 1st if case scenerio. So we have to refactor the code and define a new function
+//76. define a function createListItem that takes id and value as parameter and cut the code from 12 to 17 and paste inside it
+//77. also call createListItem() in 1st if case scenerio to make previous code unchanged
+//78. check if items received from localstorage is empty or not. 
+//79. if not empty then run forEach on items ..and call createListItem..that takes item.id and item.value as arguments.
+//80. add the class "show-container" to container  
+
 // ****** SELECT ITEMS **********
 const alert = document.querySelector(".alert") //1
 const form = document.querySelector(".grocery-form")
@@ -101,6 +122,8 @@ form.addEventListener("submit" , addItem) //addItem is a function but we are not
 //clear items
 clearBtn.addEventListener("click" , clearItems) //24
 
+//show item from localstorage
+window.addEventListener("DOMContentLoaded" , setUpItems()) //72
 
 // ****** FUNCTIONS **********
 function addItem(e) { //4
@@ -112,33 +135,9 @@ function addItem(e) { //4
    //when the form is submitted we have three options ..1.to add the item to the list and we are not editing , 2.when we are editing, 3. when user has not added any item
 
    if(value !== '' && editFlag === false){ //7  //can also use value instead of value !== 
-        const element  = document.createElement("article") //12
-        element.classList.add("grocery-item")//13
+        
+        creatListItem(id , value) //77
 
-        const attr = document.createAttribute("data-id")//14
-        attr.value = id
-        element.setAttributeNode(attr)//15
-        console.log(element);
-        element.innerHTML = `
-            <p class="title">${value}</p>
-            <div class="btn-container">
-              <button class="edit-btn">
-                <i class="fas fa-edit"></i>
-              </button>
-              <button class="delete-btn">
-                <i class="fas fa-trash"></i>
-              </button>
-            </div>
-        `
-        //only after access
-        const deleteBtn = element.querySelector(".delete-btn")
-        const editBtn = element.querySelector(".edit-btn")
-        deleteBtn.addEventListener("click",deleteItem)
-        editBtn.addEventListener("click",editItem)
-
-        //16
-        //append child
-        list.appendChild(element)//17
         //display alert
         displayAlert("grocrery added to the list" , "success")//18
         //show container
@@ -243,6 +242,11 @@ function editItem(e) { //41
 
 
 // ****** LOCAL STORAGE **********
+function getLocalStorage() { //59
+    return localStorage.getItem('list') ? JSON.parse (localStorage.getItem("list")) : [] //56    
+}
+
+
 
 function addtoLocalStorage(id,value){ //53
     const grocery = { //54
@@ -256,13 +260,17 @@ function addtoLocalStorage(id,value){ //53
 }
 
 
-function editLocalStorage(id , value) {
-    console.log("test");   
+function editLocalStorage(id , value) { //66
+    let items = getLocalStorage() //67
+    items = items.map(function(item) { //68
+        if(item.id === id) {
+            item.value = value
+        }
+        return item //69
+    })
+    localStorage.setItem("list" , JSON.stringify(items)) //70  
 }
 
-function getLocalStorage() { //59
-    return localStorage.getItem('list') ? JSON.parse (localStorage.getItem("list")) : [] //56    
-}
 
 function removeFromLocalStorage(id) { //61
     let items = getLocalStorage() //62
@@ -283,3 +291,44 @@ function removeFromLocalStorage(id) { //61
 
 
 // ****** SETUP ITEMS **********
+function setUpItems(){ //73
+    let items = getLocalStorage() //74
+
+    if(items.length > 0) { //78
+        items.forEach(function(item){ //79
+            creatListItem(item.id , item.value)
+        })
+    }
+    container.classList.add('show-container') //80
+}
+
+
+function creatListItem(id , value) {  //76
+    const element  = document.createElement("article") //12
+        element.classList.add("grocery-item")//13
+
+        const attr = document.createAttribute("data-id")//14
+        attr.value = id
+        element.setAttributeNode(attr)//15
+        console.log(element);
+        element.innerHTML = `
+            <p class="title">${value}</p>
+            <div class="btn-container">
+              <button class="edit-btn">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="delete-btn">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+        `
+        //only after access
+        const deleteBtn = element.querySelector(".delete-btn")
+        const editBtn = element.querySelector(".edit-btn")
+        deleteBtn.addEventListener("click",deleteItem)
+        editBtn.addEventListener("click",editItem)
+
+        //16
+        //append child
+        list.appendChild(element)//17
+} 
